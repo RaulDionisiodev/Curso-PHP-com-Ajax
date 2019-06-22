@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Solicitacao</title>
+        <script>
+            function carregarDados() {
+                
+            
+                var ajax
+
+                // criando objeto de acordo com o navegador
+
+                if (window.XMLHttpRequest) {
+                    ajax = new XMLHttpRequest(); //Criação do Objeto da Classe XMLHttpRequest para navegadores modernos
+                }else{
+                    ajax = new ActiveXObject("Microsoft.XMLHTTP"); // IE5 ou mais antigos
+                }
+
+                //fazendo a requisição
+                ajax.open('GET', 'dados.txt', true); // modo de requisição, arquivo que vai ser lido, verificação sea chamada vai ser síncrona (true) ou não
+                
+                
+                ajax.onreadystatechange = function () {
+                    if (ajax.status == 200) {
+                        if (ajax.readyState == 3) {
+                            console.log("Carregando")
+                        }
+                        if (ajax.readyState == 4) {
+                            var elemento = document.getElementById("dinamico");
+                            elemento.innerHTML = ajax.responseText;
+
+                            var titulo = document.getElementsByTagName('h1')
+                            titulo[0].innerHTML = ajax.responseText;
+                        }
+                    }else{
+                        console.log("Erro na Operação")
+                    }
+                }
+                ajax.send();
+             }   
+        </script>
+    </head>
+
+    <body>
+        <button onclick="carregarDados()" >Mostra texto do arquivo</button>
+        <div id="dinamico"></div>
+        <h1></h1>
+    </body>
+</html>
